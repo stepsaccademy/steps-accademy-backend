@@ -1,0 +1,1 @@
+const mongoose=require('mongoose');module.exports=mongoose.model('Fee',new mongoose.Schema({student:{type:mongoose.Schema.Types.ObjectId,ref:'User',unique:true},amount:Number,paid:Number,status:{type:String,enum:['paid','unpaid','partial'],default:'unpaid'},dueDate:Date,history:[{amount:Number,status:String,date:Date}]},{timestamps:true}));

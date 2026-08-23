@@ -1,0 +1,1 @@
+const mongoose=require('mongoose');module.exports=mongoose.model('Device',new mongoose.Schema({user:{type:mongoose.Schema.Types.ObjectId,ref:'User',index:true},tokenHash:String,label:String,lastSeen:Date,expiresAt:Date},{timestamps:true}));

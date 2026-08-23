@@ -1,0 +1,1 @@
+const mongoose=require('mongoose');module.exports=mongoose.model('Grade',new mongoose.Schema({student:{type:mongoose.Schema.Types.ObjectId,ref:'User',index:true},subject:String,total:Number,obtained:Number,date:Date,week:Number,month:Number,year:Number,createdBy:{type:mongoose.Schema.Types.ObjectId,ref:'User'}},{timestamps:true}));
