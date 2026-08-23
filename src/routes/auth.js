@@ -172,92 +172,17 @@ router.post("/login", async (req, res) => {
       });
     }
 
-    /*
-    ==============================================
-    ADMIN DEVICE AUTHENTICATION
-    ==============================================
-    */
-
     if (role === "admin") {
+  res.cookie(
+    "academy_token",
+    token(user._id),
+    cookieOptions(7 * 24 * 60 * 60 * 1000)
+  );
 
-      const trustedDevice =
-        req.cookies?.academy_device;
-
-      if (trustedDevice) {
-
-        const tokenHash = crypto
-          .createHash("sha256")
-          .update(trustedDevice)
-          .digest("hex");
-
-        const device = await Device.findOne({
-          user: user._id,
-          tokenHash,
-          expiresAt: {
-            $gt: new Date()
-          }
-        });
-
-        if (device) {
-
-          device.lastSeen = new Date();
-          await device.save();
-
-          res.cookie(
-            "academy_token",
-            token(user._id),
-            cookieOptions(7 * 24 * 60 * 60 * 1000)
-          );
-
-          return res.json({
-            user: safe(user)
-          });
-        }
-      }
-
-      /*
-      ----------------------------------------------
-      NEW ADMIN DEVICE -> OTP
-      ----------------------------------------------
-      */
-
-      const code = String(
-        Math.floor(
-          100000 + Math.random() * 900000
-        )
-      );
-
-      const pendingToken = jwt.sign(
-        {
-          id: user._id,
-          code
-        },
-        process.env.JWT_SECRET,
-        {
-          expiresIn: "10m"
-        }
-      );
-
-      res.cookie(
-        "academy_pending",
-        pendingToken,
-        cookieOptions(10 * 60 * 1000)
-      );
-
-      await sendCode(
-        user.email ||
-        process.env.ADMIN_VERIFY_EMAIL,
-        code
-      );
-
-      console.log(
-        `ADMIN OTP SENT -> ${user.email || process.env.ADMIN_VERIFY_EMAIL}`
-      );
-
-      return res.json({
-        requiresOtp: true
-      });
-    }
+  return res.json({
+    user: safe(user)
+  });
+}
 
     /*
     ==============================================
