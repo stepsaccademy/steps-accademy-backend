@@ -437,18 +437,29 @@ router.post("/verify-device", async (req, res) => {
     });
 
   } catch (error) {
+    console.error("VERIFY DEVICE ERROR:", {
+      name: error.name,
+      message: error.message,
+      code: error.code,
+    });
 
-    console.error(
-      "VERIFY DEVICE ERROR:",
-      error.message
-    );
+    if (error.name === "TokenExpiredError") {
+      return res.status(400).json({
+        message: "Verification token expired."
+      });
+    }
+
+    if (error.name === "JsonWebTokenError") {
+      return res.status(400).json({
+        message: "Verification token is invalid."
+      });
+    }
 
     return res.status(400).json({
-      message: "Verification expired. Login again."
+      message: "Verification failed."
     });
   }
 });
-
 /*
 ==================================================
 CURRENT USER
