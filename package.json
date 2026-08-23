@@ -1,5 +1,5 @@
 {
-  "name":"aaliyaan-sciences-academy-api","version":"1.0.0","private":true,
+  "name":"Step-academy-api","version":"1.0.0","private":true,
   "scripts":{"dev":"node --watch src/server.js","start":"node src/server.js","seed":"node src/seed.js"},
   "dependencies":{
     "bcryptjs":"^2.4.3","cookie-parser":"^1.4.7","cors":"^2.8.5","dotenv":"^16.4.7",

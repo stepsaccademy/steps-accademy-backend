@@ -8,14 +8,14 @@ const Content = require("./models/Content");
 
 const ADMIN_USERNAME = "admin";
 const ADMIN_EMAIL = "arishusm12an@gmail.com";
-const ADMIN_PASSWORD = "ChangeThisStrongPassword";
+const ADMIN_PASSWORD = "admin123";
 
 const TEACHER_PASSWORD = "Teacher@12345";
 
 const teachers = [
   {
-    name: "Engr. Aamir Hanif",
-    username: "aamir.hanif",
+    name: "muhammad saad",
+    username: "muhammmadsaad",
     subject: "Physics & Mathematics",
   },
   {
@@ -78,7 +78,7 @@ async function seed() {
       { username: ADMIN_USERNAME },
       {
         $set: {
-          name: "Aaliyaan Academy Principal",
+          name: "Step Academy Principal",
           username: ADMIN_USERNAME,
           email: ADMIN_EMAIL,
           passwordHash: adminPasswordHash,
@@ -148,7 +148,7 @@ async function seed() {
 
     console.log("");
     console.log("==========================================");
-    console.log("AALIYAAN SCIENCES ACADEMY SEED COMPLETE");
+    console.log("STEP ACADEMY SEED COMPLETE");
     console.log("==========================================");
     console.log("");
     console.log("ADMIN");

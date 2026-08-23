@@ -68,7 +68,7 @@ app.get(
     res.json({
       ok: true,
       service:
-        'Aaliyaan Academy API',
+        'Step Academy API',
     });
   }
 );

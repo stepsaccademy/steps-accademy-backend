@@ -16,13 +16,13 @@ async function sendCode(to, code, purpose = "admin") {
     return;
   }
 
-  let subject = "AALIYAAN Sciences Academy — Verification Code";
+  let subject = "Step Academy — Verification Code";
   let title = "Verification Code";
   let message = "Use this code to continue.";
 
   if (purpose === "admin") {
     subject =
-      "AALIYAAN Sciences Academy — Admin Verification Code";
+      "Step Academy — Admin Verification Code";
     title = "Admin Verification";
     message =
       "Use this code to verify your admin login.";
@@ -30,14 +30,14 @@ async function sendCode(to, code, purpose = "admin") {
 
   if (purpose === "forgot-password") {
     subject =
-      "AALIYAAN Sciences Academy — Password Reset Code";
+      "Step Sciences Academy — Password Reset Code";
     title = "Password Reset";
     message =
-      "Use this code to reset your AALIYAAN Sciences Academy password.";
+      "Use this code to reset your Step Academy password.";
   }
 
   await transporter.sendMail({
-    from: `"AALIYAAN Sciences Academy" <${process.env.SMTP_USER}>`,
+    from: `"Step Sciences Academy" <${process.env.SMTP_USER}>`,
     to,
     subject,
     text: `${message}\n\nYour verification code is ${code}.\n\nThis code expires in 10 minutes.`,
@@ -63,7 +63,7 @@ async function sendCode(to, code, purpose = "admin") {
             margin:0 0 10px;
             font-size:26px;
           ">
-            AALIYAAN SCIENCES ACADEMY
+            Step SCIENCES ACADEMY
           </h1>
 
           <h2 style="
