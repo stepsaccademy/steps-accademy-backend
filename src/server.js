@@ -68,7 +68,7 @@ app.get(
     res.json({
       ok: true,
       service:
-        'Step Academy API',
+        'AL-Hammad Academy API',
     });
   }
 );

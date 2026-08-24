@@ -8,15 +8,15 @@ async function sendCode(to, code, purpose = "admin") {
   let message = "Use this code to continue.";
 
   if (purpose === "admin") {
-    subject = "Step Academy — Admin Verification Code";
+    subject = "AL-Hammad Academy — Admin Verification Code";
     title = "Admin Verification";
     message = "Use this code to verify your admin login.";
   }
 
   if (purpose === "forgot-password") {
-    subject = "Step Academy — Password Reset Code";
+    subject = "AL-Hammad Academy — Password Reset Code";
     title = "Password Reset";
-    message = "Use this code to reset your Step Academy password.";
+    message = "Use this code to reset your AL-Hammad Academy password.";
   }
 
   const html = `
@@ -41,7 +41,7 @@ async function sendCode(to, code, purpose = "admin") {
           margin:0 0 10px;
           font-size:26px;
         ">
-          Step Academy
+          AL-Hammad Academy
         </h1>
 
         <h2 style="

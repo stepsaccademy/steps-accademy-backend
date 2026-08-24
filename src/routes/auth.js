@@ -80,7 +80,7 @@ router.post("/seed-admin", async (req, res) => {
 
     const user = await User.create({
       role: "admin",
-      name: String(name || "Step Academy Principal").trim(),
+      name: String(name || "AL-Hammad Academy Principal").trim(),
       username: normalizedUsername,
       email: String(email).trim().toLowerCase(),
       passwordHash: await bcrypt.hash(String(password), 12),

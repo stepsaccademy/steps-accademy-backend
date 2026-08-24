@@ -19,22 +19,22 @@ const teachers = [
     subject: "Physics & Mathematics",
   },
   {
-    name: "Imtiyaz Hussain",
+    name: "Ali Hussain",
     username: "imtiyaz.hussain",
     subject: "Islamic Studies & Pak Studies",
   },
   {
-    name: "Khadim Rafique",
+    name: "Ahmad mujtabah",
     username: "khadim.rafique",
     subject: "English",
   },
   {
-    name: "Bilal Ahmad",
+    name: "Haider mustajab",
     username: "bilal.ahmad",
     subject: "Urdu",
   },
   {
-    name: "Amer Raza",
+    name: "Ahmer Ali",
     username: "amer.raza",
     subject: "Biology",
   },
@@ -78,7 +78,7 @@ async function seed() {
       { username: ADMIN_USERNAME },
       {
         $set: {
-          name: "Step Academy Principal",
+          name: "AL-Hammad Academy Principal",
           username: ADMIN_USERNAME,
           email: ADMIN_EMAIL,
           passwordHash: adminPasswordHash,
@@ -148,7 +148,7 @@ async function seed() {
 
     console.log("");
     console.log("==========================================");
-    console.log("STEP ACADEMY SEED COMPLETE");
+    console.log("AL-Hammad ACADEMY SEED COMPLETE");
     console.log("==========================================");
     console.log("");
     console.log("ADMIN");
