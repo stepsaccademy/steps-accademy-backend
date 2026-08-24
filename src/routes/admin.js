@@ -1,7 +1,101 @@
 const router=require('express').Router();const bcrypt=require('bcryptjs');const User=require('../models/User');const Grade=require('../models/Grade');const Content=require('../models/Content');const Fee=require('../models/Fee');const auth=require('../middleware/auth');const {roles}=auth;router.use(auth,roles('admin'));
-router.post('/students',async(req,res)=>{try{const {username,password}=req.body;if(!username||!password)return res.status(400).json({message:'Username and password are compulsory'});const u=await User.create({...req.body,role:'student',passwordHash:await bcrypt.hash(password,12)});delete u.passwordHash;res.status(201).json({message:'Student created successful',user:u})}catch(e){res.status(400).json({message:e.code===11000?'Username already exists':e.message})}});
-router.post('/teachers',async(req,res)=>{try{const {username,password}=req.body;if(!username||!password)return res.status(400).json({message:'Username and password are compulsory'});const u=await User.create({...req.body,role:'teacher',passwordHash:await bcrypt.hash(password,12)});res.status(201).json({message:'Teacher created successful',user:u})}catch(e){res.status(400).json({message:e.code===11000?'Username already exists':e.message})}});
-router.get('/students/search',async(req,res)=>{const q=String(req.query.q||'');const re=new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'i');const student=await User.findOne({role:'student',$or:[{name:re},{username:re},{studentId:re}]}).select('-passwordHash');res.json({student})});
+router.post('/students', async (req, res) => {
+  try {
+    const { name, phone, username, password } = req.body;
+
+    if (!name || !phone || !username) {
+      return res.status(400).json({
+        message: 'Name, phone and username are compulsory'
+      });
+    }
+
+    const existing = await User.findOne({ username });
+
+    if (existing) {
+      return res.status(400).json({
+        message: 'Username already exists'
+      });
+    }
+
+    const passwordHash = await bcrypt.hash(
+      password || 'Student@12345',
+      12
+    );
+
+    const u = await User.create({
+      ...req.body,
+      name,
+      phone,
+      username,
+      role: 'student',
+      passwordHash
+    });
+
+    const user = u.toObject();
+    delete user.passwordHash;
+
+    res.status(201).json({
+      message: 'Student created successfully',
+      user
+    });
+
+  } catch (e) {
+    console.error('Create student error:', e);
+
+    res.status(400).json({
+      message: e.message || 'Unable to create student'
+    });
+  }
+});
+    router.post('/teachers', async (req, res) => {
+  try {
+    const { name, phone, username, password } = req.body;
+
+    if (!name || !phone || !username) {
+      return res.status(400).json({
+        message: 'Name, phone and username are compulsory'
+      });
+    }
+
+    const existing = await User.findOne({ username });
+
+    if (existing) {
+      return res.status(400).json({
+        message: 'Username already exists'
+      });
+    }
+
+    const passwordHash = await bcrypt.hash(
+      password || 'Teacher@12345',
+      12
+    );
+
+    const u = await User.create({
+      ...req.body,
+      name,
+      phone,
+      username,
+      role: 'teacher',
+      passwordHash
+    });
+
+    const user = u.toObject();
+    delete user.passwordHash;
+
+    res.status(201).json({
+      message: 'Teacher created successfully',
+      user
+    });
+
+  } catch (e) {
+    console.error('Create teacher error:', e);
+
+    res.status(400).json({
+      message: e.message || 'Unable to create teacher'
+    });
+  }
+});
+    router.get('/students/search',async(req,res)=>{const q=String(req.query.q||'');const re=new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'i');const student=await User.findOne({role:'student',$or:[{name:re},{username:re},{studentId:re}]}).select('-passwordHash');res.json({student})});
 router.get('/stats',async(req,res)=>res.json({totalStudents:await User.countDocuments({role:'student'}),totalTeachers:await User.countDocuments({role:'teacher'}),announcements:await Content.countDocuments({type:'announcement',status:'approved'}),pending:await Content.countDocuments({status:'pending'})}));
 router.get('/users',async(req,res)=>{const role=req.query.role;const users=await User.find(role?{role}:{}).select('-passwordHash').limit(500);res.json({users})});
 router.post('/approve/:id',async(req,res)=>{const c=await Content.findByIdAndUpdate(req.params.id,{status:'approved'},{new:true});res.json({message:'Approved',content:c})});
