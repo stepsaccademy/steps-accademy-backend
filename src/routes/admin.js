@@ -17,13 +17,22 @@ router.post('/students', async (req, res) => {
       });
     }
 
+    const data = { ...req.body };
+
+    // Empty optional fields remove karo
+    Object.keys(data).forEach((key) => {
+      if (data[key] === '') {
+        delete data[key];
+      }
+    });
+
     const passwordHash = await bcrypt.hash(
       password || 'Student@12345',
       12
     );
 
     const u = await User.create({
-      ...req.body,
+      ...data,
       name,
       phone,
       username,
@@ -41,6 +50,14 @@ router.post('/students', async (req, res) => {
 
   } catch (e) {
     console.error('Create student error:', e);
+
+    if (e.code === 11000) {
+      const field = Object.keys(e.keyPattern || {})[0] || 'field';
+
+      return res.status(400).json({
+        message: `${field} already exists`
+      });
+    }
 
     res.status(400).json({
       message: e.message || 'Unable to create student'
@@ -65,13 +82,22 @@ router.post('/students', async (req, res) => {
       });
     }
 
+    const data = { ...req.body };
+
+    // Empty optional fields remove karo
+    Object.keys(data).forEach((key) => {
+      if (data[key] === '') {
+        delete data[key];
+      }
+    });
+
     const passwordHash = await bcrypt.hash(
       password || 'Teacher@12345',
       12
     );
 
     const u = await User.create({
-      ...req.body,
+      ...data,
       name,
       phone,
       username,
@@ -89,6 +115,14 @@ router.post('/students', async (req, res) => {
 
   } catch (e) {
     console.error('Create teacher error:', e);
+
+    if (e.code === 11000) {
+      const field = Object.keys(e.keyPattern || {})[0] || 'field';
+
+      return res.status(400).json({
+        message: `${field} already exists`
+      });
+    }
 
     res.status(400).json({
       message: e.message || 'Unable to create teacher'
