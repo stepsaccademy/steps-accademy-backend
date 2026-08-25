@@ -1,11 +1,11 @@
 const router=require('express').Router();const bcrypt=require('bcryptjs');const User=require('../models/User');const Grade=require('../models/Grade');const Content=require('../models/Content');const Fee=require('../models/Fee');const auth=require('../middleware/auth');const {roles}=auth;router.use(auth,roles('admin'));
 router.post('/students', async (req, res) => {
   try {
-    const { name, phone, username, password } = req.body;
+    const { name, username, password } = req.body;
 
-    if (!name || !phone || !username) {
+    if (!name || !username || !password) {
       return res.status(400).json({
-        message: 'Name, phone and username are compulsory'
+        message: 'Name, username and password are compulsory'
       });
     }
 
@@ -26,15 +26,11 @@ router.post('/students', async (req, res) => {
       }
     });
 
-    const passwordHash = await bcrypt.hash(
-      password || 'Student@12345',
-      12
-    );
+    const passwordHash = await bcrypt.hash(password, 12);
 
     const u = await User.create({
       ...data,
       name,
-      phone,
       username,
       role: 'student',
       passwordHash
@@ -64,13 +60,13 @@ router.post('/students', async (req, res) => {
     });
   }
 });
-    router.post('/teachers', async (req, res) => {
+   router.post('/teachers', async (req, res) => {
   try {
-    const { name, phone, username, password } = req.body;
+    const { name, username, password } = req.body;
 
-    if (!name || !phone || !username) {
+    if (!name || !username || !password) {
       return res.status(400).json({
-        message: 'Name, phone and username are compulsory'
+        message: 'Name, username and password are compulsory'
       });
     }
 
@@ -91,15 +87,11 @@ router.post('/students', async (req, res) => {
       }
     });
 
-    const passwordHash = await bcrypt.hash(
-      password || 'Teacher@12345',
-      12
-    );
+    const passwordHash = await bcrypt.hash(password, 12);
 
     const u = await User.create({
       ...data,
       name,
-      phone,
       username,
       role: 'teacher',
       passwordHash
